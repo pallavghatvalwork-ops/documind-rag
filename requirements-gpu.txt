@@ -1,0 +1,5 @@
+# Install these in an NVIDIA CUDA-equipped environment ONLY, after requirements.txt.
+# Follow current https://unsloth.ai/docs/get-started/install for the compatible
+# Unsloth, PyTorch, CUDA and Transformers versions for your GPU.
+# The notebook itself is based on the older 2024 Unsloth API; revisit as needed.
+# Intentionally no unverified fixed Unsloth pin here.

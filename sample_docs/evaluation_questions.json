@@ -1,0 +1,44 @@
+[
+  {
+    "id": "q1",
+    "question": "What is requirements engineering?",
+    "page": 1,
+    "key_facts": ["eliciting", "analyzing", "stakeholder requirements"],
+    "ground_truth": "Requirements engineering is the process of eliciting, analyzing, specifying, validating and managing stakeholder requirements for a software system to create a shared understanding before design and implementation."
+  },
+  {
+    "id": "q2",
+    "question": "What are common activities in requirements engineering?",
+    "page": 1,
+    "key_facts": ["interviews", "use cases", "prioritization", "traceability"],
+    "ground_truth": "Common activities include stakeholder interviews, use cases, requirement prioritization and requirements traceability."
+  },
+  {
+    "id": "q3",
+    "question": "What is the purpose of software testing?",
+    "page": 2,
+    "key_facts": ["evaluating software", "defects", "requirements"],
+    "ground_truth": "Software testing is the process of evaluating software to identify defects and check that it meets its stated requirements."
+  },
+  {
+    "id": "q4",
+    "question": "What are the different levels and types of software testing?",
+    "page": 2,
+    "key_facts": ["unit testing", "integration testing", "system testing", "regression testing"],
+    "ground_truth": "Unit testing checks small components, integration testing checks cooperation between modules, system testing checks the whole product, and regression testing detects unwanted changes after modifications."
+  },
+  {
+    "id": "q5",
+    "question": "What does version control do?",
+    "page": 3,
+    "key_facts": ["records changes", "collaboration", "reviews", "rollback"],
+    "ground_truth": "Version control records changes to source code and supports collaboration, reviews and rollback."
+  },
+  {
+    "id": "q6",
+    "question": "How do developers use Git for collaboration?",
+    "page": 3,
+    "key_facts": ["branches", "commits", "pull requests", "distributed"],
+    "ground_truth": "Git is a distributed version control system where developers create branches for changes, use commits to record snapshots, and integrate changes through pull requests."
+  }
+]
