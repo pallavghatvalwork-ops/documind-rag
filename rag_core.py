@@ -12,10 +12,7 @@ import numpy as np
 
 from text_utils import split_text
 
-try:
-    import pymupdf as fitz
-except ImportError:
-    import fitz  # PyMuPDF fallback
+import pymupdf as fitz  # PyMuPDF ≥1.24 — 'fitz' alias is deprecated; use pymupdf directly
 
 
 @dataclass(frozen=True)

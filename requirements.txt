@@ -1,7 +1,12 @@
 # CPU-friendly deployment dependencies (Python 3.11 / 3.12)
+# torch CPU wheels — must come before sentence-transformers so pip
+# resolves the CPU variant instead of pulling the default CUDA build.
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch>=2.1,<3
 streamlit>=1.36,<2
 pymupdf>=1.24,<2
 sentence-transformers>=3,<6
 faiss-cpu>=1.8,<2
 numpy>=1.26,<3
 openai>=1.40,<3
+huggingface-hub>=0.23,<2
