@@ -82,14 +82,33 @@ def cached_lora(adapter_path: str):
 
 
 def get_config(name: str, fallback: str = "") -> str:
-    """Retrieve setting from environment variables or Streamlit Secrets."""
+    """Retrieve setting from environment variables, Streamlit Secrets, or local .streamlit/secrets.toml."""
+    # 1. Environment variables
     env = os.environ.get(name)
-    if env:
-        return env
+    if env and env.strip():
+        return env.strip()
+
+    # 2. Native Streamlit secrets (Streamlit Community Cloud or local)
     try:
-        return str(st.secrets.get(name, fallback))
-    except (FileNotFoundError, OSError, KeyError, AttributeError):
-        return fallback
+        if name in st.secrets and str(st.secrets[name]).strip():
+            return str(st.secrets[name]).strip()
+    except Exception:
+        pass
+
+    # 3. Direct local .streamlit/secrets.toml fallback (handles sandbox/OS permissions)
+    local_path = os.path.join(".streamlit", "secrets.toml")
+    if os.path.exists(local_path):
+        try:
+            import tomllib
+
+            with open(local_path, "rb") as f:
+                data = tomllib.load(f)
+            if name in data and str(data[name]).strip():
+                return str(data[name]).strip()
+        except Exception:
+            pass
+
+    return fallback
 
 
 def compute_file_signature(uploaded_files) -> str:
@@ -132,7 +151,17 @@ with st.sidebar:
     adapter_path = ""
 
     if mode == "Hosted LLM API":
-        if not api_key:
+        if api_key:
+            st.success("API key loaded from secrets / environment.", icon="🔑")
+            user_override = st.text_input(
+                "Override API Key (Optional)",
+                type="password",
+                placeholder="Leave blank to use configured secret",
+                help="Enter an alternate API key here if you wish to override the configured secret.",
+            )
+            if user_override and user_override.strip():
+                api_key = user_override.strip()
+        else:
             api_key = st.text_input(
                 "API Key",
                 type="password",

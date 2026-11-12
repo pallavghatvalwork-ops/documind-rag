@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import os
+
 from rag_core import Hit, build_context
 
 SYSTEM_INSTRUCTIONS = """You are a document-grounded question answering assistant.
@@ -16,23 +18,27 @@ Keep answers concise but useful."""
 def generate_hosted(
     question: str,
     hits: list[Hit],
-    api_key: str,
-    base_url: str,
-    model_name: str,
+    api_key: str = "",
+    base_url: str = "",
+    model_name: str = "",
 ) -> str:
     """Calls an OpenAI-compatible chat endpoint (e.g. Groq)."""
     from openai import OpenAI
 
-    if not api_key or not api_key.strip():
+    key = (api_key or os.environ.get("LLM_API_KEY", "")).strip()
+    if not key:
         raise ValueError("No hosted API key supplied. Provide an API key in the sidebar or via secrets/environment.")
+
+    url = (base_url or os.environ.get("LLM_BASE_URL", "https://api.groq.com/openai/v1")).strip()
+    model = (model_name or os.environ.get("LLM_MODEL", "openai/gpt-oss-20b")).strip()
 
     if not hits:
         return "No relevant passages were found in the uploaded documents to answer your question."
 
     context_str = build_context(hits)
-    client = OpenAI(api_key=api_key.strip(), base_url=base_url.strip(), timeout=60.0, max_retries=1)
+    client = OpenAI(api_key=key, base_url=url, timeout=60.0, max_retries=1)
     result = client.chat.completions.create(
-        model=model_name.strip(),
+        model=model,
         messages=[
             {"role": "system", "content": SYSTEM_INSTRUCTIONS},
             {
