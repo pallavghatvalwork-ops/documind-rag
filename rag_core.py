@@ -31,6 +31,35 @@ class Hit:
     similarity: float  # inner product of L2-normalized sentence vectors
 
 
+def load_embedding_model(model_name: str = "sentence-transformers/all-MiniLM-L6-v2"):
+    """Load SentenceTransformer embedding model with supported Hugging Face APIs.
+
+    Downloads model from Hugging Face Hub if not cached, or loads from cache if offline.
+    """
+    import os
+    from sentence_transformers import SentenceTransformer
+
+    # 1. If model is already cached locally, load immediately with local_files_only=True
+    # to avoid network latency and socket permission errors.
+    try:
+        from huggingface_hub import try_to_load_from_cache
+
+        cached = try_to_load_from_cache(repo_id=model_name, filename="config.json")
+        if isinstance(cached, str) and os.path.exists(cached):
+            return SentenceTransformer(model_name, local_files_only=True)
+    except Exception:
+        pass
+
+    # 2. Fresh environment (e.g. Streamlit Community Cloud): download from Hugging Face Hub
+    try:
+        return SentenceTransformer(model_name)
+    except Exception as exc:
+        try:
+            return SentenceTransformer(model_name, local_files_only=True)
+        except Exception:
+            raise exc
+
+
 def pdf_to_chunks(
     pdf_data: bytes,
     filename: str,

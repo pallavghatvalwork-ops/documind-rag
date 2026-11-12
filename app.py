@@ -9,14 +9,10 @@ import hashlib
 import os
 import time
 
-# Ensure offline cache availability
-os.environ.setdefault("HF_HUB_OFFLINE", "1")
-os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
-
 import streamlit as st
 
 from llm_backends import generate_hosted, generate_lora, load_lora_adapter
-from rag_core import Retriever, pdf_to_chunks
+from rag_core import Retriever, load_embedding_model, pdf_to_chunks
 
 # Page configuration
 st.set_page_config(
@@ -70,10 +66,8 @@ st.markdown(
 
 
 @st.cache_resource(show_spinner="Loading Sentence Transformer embeddings...")
-def load_embeddings():
-    from sentence_transformers import SentenceTransformer
-
-    return SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
+def load_embeddings(model_name: str = "sentence-transformers/all-MiniLM-L6-v2"):
+    return load_embedding_model(model_name)
 
 
 @st.cache_resource(show_spinner="Loading LoRA adapter into GPU memory...")

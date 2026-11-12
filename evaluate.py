@@ -19,11 +19,7 @@ import statistics
 import time
 from typing import Any
 
-# Use local cache if offline
-os.environ.setdefault("HF_HUB_OFFLINE", "1")
-os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
-
-from rag_core import Retriever, pdf_to_chunks
+from rag_core import Retriever, load_embedding_model, pdf_to_chunks
 
 
 from collections import Counter
@@ -70,7 +66,7 @@ def run_evaluation(
         raise ValueError("Evaluation question dataset is empty.")
 
     t_start_model = time.perf_counter()
-    embed_model = SentenceTransformer(model_name)
+    embed_model = load_embedding_model(model_name)
     model_load_sec = time.perf_counter() - t_start_model
 
     t_start_index = time.perf_counter()
