@@ -193,15 +193,6 @@ python evaluate.py sample_docs/demo_notes.pdf sample_docs/evaluation_questions.j
 
 ---
 
-## 📄 Resume Description (Google Student Researcher Portfolio)
-
-**DocuMind AI | Python, Llama 3 8B, Unsloth, LoRA, FAISS, Sentence Transformers, Streamlit**
-- Architected an end-to-end RAG question answering system with FAISS dense vector search and Sentence Transformers embeddings (`all-MiniLM-L6-v2`), achieving **100% Recall@1** and sub-10 ms retrieval latency.
-- Fine-tuned Llama 3 8B with QLoRA (4-bit quantization, 100 steps) on instruction datasets via Unsloth; engineered a production Streamlit application featuring dual-backend execution (Hosted cloud API vs. local GPU LoRA).
-- Implemented context-grounded prompt synthesis with page-level citation attribution, token overlap F1 evaluation, and a comprehensive 19-test automated testing suite.
-
----
-
 ## 📜 License
 
 Distributed under the MIT License. See `LICENSE` for details.
